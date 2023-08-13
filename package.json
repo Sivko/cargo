@@ -6,16 +6,29 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.32.6",
+    "axios": "^1.4.0",
+    "babel-plugin-module-resolver": "^5.0.0",
     "expo": "~49.0.7",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
-    "react-native": "0.72.3"
+    "react-dom": "18.2.0",
+    "react-native": "0.72.3",
+    "react-native-web": "~0.19.6",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-universe": "^12.0.0",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-native": "^4.0.0",
+    "prettier": "3.0.1"
   },
   "private": true
 }
