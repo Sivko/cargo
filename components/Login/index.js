@@ -2,8 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { View, Image, TextInput, Text, Button, StyleSheet } from "react-native";
 
-import config, { fields } from "../../requests/config";
-
+import config, { fields } from "@/requests/config";
 import logginStore from "@/stores/logginStore";
 
 function Login() {
@@ -30,7 +29,7 @@ function Login() {
     if (email && password) {
       try {
         const res = await axios.get(
-          `https://app.salesap.ru/api/v1/users?filter[email]=${encodeURI(
+          `${process.env.EXPO_PUBLIC_API_URL}/users?filter[email]=${encodeURI(
             email,
           )}`,
           config,
