@@ -1,11 +1,12 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { useEffect } from "react";
-import { Button, View } from "react-native";
 
 import Login from "./components/Login";
+import FooterTabs from "./navigations/FooterTabs";
 import logginStore from "./stores/logginStore";
 
 export default function App() {
-  const { user, getStorage, unloggin } = logginStore();
+  const { user, getStorage } = logginStore();
   useEffect(() => {
     getStorage();
   }, []);
@@ -13,9 +14,9 @@ export default function App() {
   return (
     <>
       {user?.id ? (
-        <View>
-          <Button title="Выйти" onPress={unloggin} />
-        </View>
+        <NavigationContainer>
+          <FooterTabs />
+        </NavigationContainer>
       ) : (
         <Login />
       )}
