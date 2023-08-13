@@ -5,19 +5,19 @@ import {
 import { Picker } from '@react-native-picker/picker';
 
 import { AntDesign } from '@expo/vector-icons';
-import ImagePickerPreview from '../imagePicker/ImagePickerPreview';
-import { fields } from '../../requests/config';
+// import ImagePickerPreview from '../imagePicker/ImagePickerPreview';
+import { fields } from '@/requests/config';
 
 
 function SlotIndex({ route }) {
   const [data, setData] = useState(route.params.data);
-  const [length, setLength] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["length"]] || route.params.data[route.params.index - 1].data?.attributes?.customs[fields["lengthSlash"]] || '');
-  const [width, setWidth] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["width"]] || route.params.data[route.params.index - 1].data?.attributes?.customs[fields["widthSlash"]] || '');
-  const [height, setHeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["height"]] || route.params.data[route.params.index - 1].data?.attributes?.customs[fields["heightSlash"]] || '');
-  const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weightSlash"]] || '');
-  const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcodeSlash"]] || '');
+  const [length, setLength] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["length"]] || '');
+  const [width, setWidth] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["width"]] || '');
+  const [height, setHeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["height"]] || '');
+  const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || '');
+  const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || '');
   const [description, setDescription] = useState(route.params.data[route.params.index - 1].data?.attributes?.description);
-  const [selectedValue, setSelectedValue] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transportSlash"]] || '');
+  const [selectedValue, setSelectedValue] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || '');
 
   useEffect(() => {
     setData(prev => {
@@ -39,9 +39,9 @@ function SlotIndex({ route }) {
       <ScrollView style={styles.scrollView}>
         <View style={styles.card}>
           {/* <Text>{JSON.stringify(route.params.data[route.params.index - 1].attributes?.customs['custom_114632'])}</Text> */}
-          <ImagePickerPreview>
+          {/* <ImagePickerPreview> */}
             <AntDesign name="picture" size={124} color="black" />
-          </ImagePickerPreview>
+          {/* </ImagePickerPreview> */}
           <View style={styles.dimensions}>
             <View style={styles.label}>
               <Text style={{ fontSize: 10, opacity: 0.2 }}>Длина:</Text>

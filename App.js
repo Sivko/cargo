@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useEffect } from "react";
 
 import Login from "./components/Login";
-import FooterTabs from "./navigations/FooterTabs";
+import Tabs from "./navigations/Tabs";
 import logginStore from "./stores/logginStore";
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
     <>
       {user?.id ? (
         <NavigationContainer>
-          <FooterTabs />
+          <Tabs />
         </NavigationContainer>
       ) : (
         <Login />

@@ -1,13 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as zustand from "zustand";
 
-// const logginStore = create((set) => ({
-//   count: 0,
-//   increment: () => set((state) => ({ count: state.count + 1 })),
-//   decrement: () => set((state) => ({ count: state.count - 1 })),
-// }));
-
-const logginStore = create((set) => ({
+const logginStore = zustand.create((set) => ({
   user: {},
   getStorage: async () => {
     const storage = await AsyncStorage.getItem("user");
