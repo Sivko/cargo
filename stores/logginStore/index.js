@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from "zustand";
 
 // const logginStore = create((set) => ({
@@ -8,12 +9,23 @@ import { create } from "zustand";
 
 const logginStore = create((set) => ({
   user: {},
-  loggin: ({ id, firstName, lastName, email, token }) => {
+  getStorage: async () => {
+    const storage = await AsyncStorage.getItem("user");
+    if (storage === null) return;
+    const data = JSON.parse(storage);
+    return set({ user: { ...data } });
+  },
+  loggin: async ({ id, firstName, lastName, email, token }) => {
+    const data = { id, firstName, lastName, email, token };
+    await AsyncStorage.setItem("user", JSON.stringify(data));
     return set((state) => ({
-      user: { id, firstName, lastName, email, token },
+      user: data,
     }));
   },
-  unloggin: () => set((state) => ({ user: {} })),
+  unloggin: async () => {
+    await AsyncStorage.setItem("user", null);
+    return set((state) => ({ user: {} }));
+  },
 }));
 
 export default logginStore;

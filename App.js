@@ -1,28 +1,23 @@
-import { QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
-import { Button, Text, View } from "react-native";
+import { useEffect } from "react";
+import { Button, View } from "react-native";
 
 import Login from "./components/Login";
-// import { getLogginController } from "./controllers/logginController";
+import logginStore from "./stores/logginStore";
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { user, getStorage, unloggin } = logginStore();
+  useEffect(() => {
+    getStorage();
+  }, []);
 
   return (
     <>
-      {loggedIn ? (
+      {user?.id ? (
         <View>
-          <Button
-            title="Выйти"
-            onPress={() => {
-              setLoggedIn(false);
-            }}
-          />
+          <Button title="Выйти" onPress={unloggin} />
         </View>
       ) : (
-        <>
-          <Login />
-        </>
+        <Login />
       )}
     </>
   );

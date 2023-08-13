@@ -72,7 +72,6 @@ function Login() {
         style={{ width: 100, height: 100 }}
         source={require("../../assets/logo-v2.png")}
       />
-      <Text>{JSON.stringify(user)}</Text>
       <TextInput
         style={styles.input}
         onChangeText={(e) => setEmail(e.toLowerCase())}
