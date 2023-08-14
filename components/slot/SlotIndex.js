@@ -17,7 +17,7 @@ function SlotIndex({ route }) {
   const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || '');
   const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || '');
   const [description, setDescription] = useState(route.params.data[route.params.index - 1].data?.attributes?.description);
-  const [selectedValue, setSelectedValue] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || '');
+  const [trasport, setTrasport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || '');
 
   useEffect(() => {
     setData(prev => {
@@ -28,19 +28,17 @@ function SlotIndex({ route }) {
       slots[route.params.index - 1].data.attributes.customs[fields["height"]] = height
       slots[route.params.index - 1].data.attributes.customs[fields["weight"]] = weight
       slots[route.params.index - 1].data.attributes.customs[fields["barcode"]] = barcode
-      slots[route.params.index - 1].data.attributes.customs[fields["selectedValue"]] = selectedValue
-      return slots
-    })
-  }, [
-    length, width, height, selectedValue, weight, description, barcode
-  ])
+      slots[route.params.index - 1].data.attributes.customs[fields["transport"]] = trasport
+      return slots;
+    });
+  }, [length, width, height, trasport, weight, description, barcode]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.card}>
           {/* <Text>{JSON.stringify(route.params.data[route.params.index - 1].attributes?.customs['custom_114632'])}</Text> */}
           {/* <ImagePickerPreview> */}
-            <AntDesign name="picture" size={124} color="black" />
+          <AntDesign name="picture" size={124} color="black" />
           {/* </ImagePickerPreview> */}
           <View style={styles.dimensions}>
             <View style={styles.label}>
@@ -94,9 +92,9 @@ function SlotIndex({ route }) {
           <View style={{ ...styles.label, alignItems: 'center', justifyContent: 'center', height: 100 }}>
             <Text style={{ fontSize: 10, opacity: 0.2 }}>Вид транспорта:</Text>
             <Picker
-              selectedValue={selectedValue}
+              trasport={trasport}
               style={{ flex: 1 }}
-              onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+              onValueChange={(itemValue, itemIndex) => setTrasport(itemValue)}
             >
               <Picker.Item label="AIRLINE" value="AIRLINE" />
               <Picker.Item label="TRUCK" value="TRUCK" />

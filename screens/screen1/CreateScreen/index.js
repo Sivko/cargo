@@ -47,7 +47,7 @@ function CreateScreen({ route, navigation }) {
         data={slots}
         setData={setSlots}
         navigation={navigation}
-        // save={hendlerSave}
+        save={()=>{}}
       />
 
       <View style={{ flexDirection: "row", flexBasis: "15%" }}>
