@@ -17,7 +17,7 @@ function SlotIndex({ route }) {
   const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || '');
   const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || '');
   const [description, setDescription] = useState(route.params.data[route.params.index - 1].data?.attributes?.description);
-  const [trasport, setTrasport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || '');
+  const [transport, setTransport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || '');
 
   useEffect(() => {
     setData(prev => {
@@ -28,10 +28,10 @@ function SlotIndex({ route }) {
       slots[route.params.index - 1].data.attributes.customs[fields["height"]] = height
       slots[route.params.index - 1].data.attributes.customs[fields["weight"]] = weight
       slots[route.params.index - 1].data.attributes.customs[fields["barcode"]] = barcode
-      slots[route.params.index - 1].data.attributes.customs[fields["transport"]] = trasport
+      slots[route.params.index - 1].data.attributes.customs[fields["transport"]] = transport
       return slots;
     });
-  }, [length, width, height, trasport, weight, description, barcode]);
+  }, [length, width, height, transport, weight, description, barcode]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -92,9 +92,9 @@ function SlotIndex({ route }) {
           <View style={{ ...styles.label, alignItems: 'center', justifyContent: 'center', height: 100 }}>
             <Text style={{ fontSize: 10, opacity: 0.2 }}>Вид транспорта:</Text>
             <Picker
-              trasport={trasport}
+              transport={transport}
               style={{ flex: 1 }}
-              onValueChange={(itemValue, itemIndex) => setTrasport(itemValue)}
+              onValueChange={(itemValue, itemIndex) => setTransport(itemValue)}
             >
               <Picker.Item label="AIRLINE" value="AIRLINE" />
               <Picker.Item label="TRUCK" value="TRUCK" />

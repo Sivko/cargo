@@ -1,19 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Button, TextInput, Text } from "react-native";
 
 import SlotList from "@/components/slot/SlotList";
+import constSlots from "@/requests/constSlots";
 import { getFlightDeals } from "@/requests/local/getSetFlights";
+import { fields } from "@/requests/config";
 
 export function ScannerScreen({ navigation }) {
-  const [slot, setSlot] = useState([]);
-
+  const [slot, setSlot] = useState(constSlots());
+  const [barcodeInput, setBarcodeInput] = useState("");
+  // useEffect(() => {
+  //   async function startFetch() {
+  //     const resFlightDeals = await getFlightDeals();
+  //     setSlot(resFlightDeals);
+  //   }
+  //   startFetch();
+  // }, []);
+  const inputToFocus = useRef(null);
   useEffect(() => {
-    async function startFetch() {
-      const resFlightDeals = await getFlightDeals();
-      setSlot(resFlightDeals);
+    if (inputToFocus?.current) {
+      inputToFocus.current.focus();
     }
-    startFetch();
   }, []);
+
+  function searchSlot(input) {
+    setBarcodeInput(input.trim());
+    const find = slot.filter(
+      (item) => item.data.attributes.name === input.trim(),
+    );
+    if (find.length === 1) {
+      const elem = find[0];
+      elem.data.attributes.customs[fields["scanTSD"]] = "Найдено";
+      setSlot([elem, ...slot.filter((e) => e.data.id !== find[0].data.id)]);
+      setBarcodeInput("");
+    }
+  }
 
   return (
     <>
@@ -32,20 +53,21 @@ export function ScannerScreen({ navigation }) {
                 flex: 1,
                 paddingVertical: 10,
               }}
+              ref={inputToFocus}
               keyboardType="numeric"
-              value={JSON.stringify(slot)}
+              value={barcodeInput}
+              onChangeText={searchSlot}
               placeholder="Штрих-код"
             />
             <Button style={{ flex: 1 }} title="Добавить" />
           </View>
-          <View style={{width: "100%"}}>
+          <View style={{ width: "100%" }}>
             <SlotList
-              data={slot}
+              data={slot.filter((e) =>
+                e.data.attributes.name.includes(barcodeInput),
+              )}
               setData={setSlot}
               navigation={navigation}
-              save={() => {
-                "сохарнить";
-              }}
             />
           </View>
         </View>
@@ -62,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   wrapperInput: {
-    width: '100%',
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

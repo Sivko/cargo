@@ -19,6 +19,7 @@ export const fields = {
   barcode: "custom-114979",
   clientCode: "custom-102382",
   numberTTN: "custom-115383",
+  scanTSD: "custom-99670",
   token: "custom-111111",
 };
 

@@ -11,7 +11,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 
 import { fields } from "../../requests/config";
 
-export default function SlotList({ data, setData, navigation, save }) {
+export default function SlotList({ data, setData, save }) {
   const dataList = data.map((e, index) => ({ ...e, index: index + 1 }));
 
   const deleteItem = (slot) => {
@@ -58,12 +58,14 @@ export default function SlotList({ data, setData, navigation, save }) {
           <Text>
             ШК: {el.item?.data?.attributes?.customs[fields["barcode"]]}
           </Text>
-          {el.item?.status === "find" && (
+          {el.item?.data?.attributes?.customs[fields["scanTSD"]] ===
+            "Найдено" && (
             <Text>
               Статус: <Text style={{ color: "green" }}>Найдено</Text>
             </Text>
           )}
-          {el.item?.status === "notFind" && (
+          {el.item?.data?.attributes?.customs[fields["scanTSD"]] ===
+            "Ошибка" && (
             <Text>
               Статус: <Text style={{ color: "red" }}>Ошибка</Text>
             </Text>
@@ -85,16 +87,24 @@ export default function SlotList({ data, setData, navigation, save }) {
   );
 
   return (
-    <SwipeListView
-      data={dataList}
-      renderItem={renderItem}
-      renderHiddenItem={renderHiddenItem}
-      // leftOpenValue={75}
-      rightOpenValue={-75}
-      previewRowKey="0"
-      previewOpenValue={-40}
-      previewOpenDelay={3000}
-    />
+    <>
+      {data.length ? (
+        <SwipeListView
+          data={dataList}
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          // leftOpenValue={75}
+          rightOpenValue={-75}
+          previewRowKey="0"
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+        />
+      ) : (
+        <View>
+          <Text>Ничего не найдено</Text>
+        </View>
+      )}
+    </>
   );
 }
 
