@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import FlightCard from "@/components/FlightCard/Index";
+import FlightCard from "@/components/FlightCard";
 import downloadFlightDeals from "@/requests/downloadFlightDeals";
 import { getFlights } from "@/requests/flights";
 import { getFlightDeals } from "@/requests/local/getSetFlights";
 
-export function DownloadFlights() {
+export default function DownloadFlights() {
   const [refreshing, setRefreshing] = React.useState(false);
   const [flights, setFlights] = React.useState([]);
   const [checkedsId, setCheckedsId] = React.useState([]);
@@ -24,6 +24,13 @@ export function DownloadFlights() {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(async () => {
+      // const resFlightDeals = await getFlightDeals()
+      // if (!resFlightDeals?.length) {
+      //   setFlightLocalDeals(false)
+      // } else {
+      //   setFlightLocalDeals(true)
+      //   return true;
+      // }
       const flightsData = await getFlights();
       if (flightsData.length) {
         const data = flightsData.map((e) => ({
@@ -119,7 +126,7 @@ export function DownloadFlights() {
               <View>
                 <Text style={{ padding: 10 }}>
                   Есть непросканированные объекты - перейдите в "Сканирование
-                  рейсов"
+                  рейсов"{" "}
                 </Text>
               </View>
             )}
@@ -152,5 +159,3 @@ const styles = StyleSheet.create({
     margin: 8,
   },
 });
-
-export default DownloadFlights;

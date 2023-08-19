@@ -41,7 +41,7 @@ function AddInvoices({ navigation }) {
       />
       <Button
         title="Оформить"
-        // disabled={!(clientCode.length > 3)}
+        disabled={!(clientCode.length > 3)}
         onPress={() =>
           navigation.push("Оформить", { clientCode, numberTTN, countBox })
         }

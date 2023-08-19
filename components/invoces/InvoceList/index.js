@@ -1,5 +1,5 @@
-import { AntDesign } from "@expo/vector-icons";
-import React, { useState, useEffect } from "react";
+import { AntDesign, Feather } from "@expo/vector-icons";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,30 +9,30 @@ import {
 } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
-import {
-  getInvocesToUploadData,
-  hardSetInvocesToUploadData,
-} from "@/requests/local/getSetInvoces";
+import invocesToUploadStore from "@/stores/invocesToUploadStore";
+
+// import {
+//   getInvocesToUploadData,
+//   hardSetInvocesToUploadData,
+// } from "@/requests/local/getSetInvoces";
 
 export default function InvoceList() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    async function startFetch() {
-      const resInvocesDataToUpload = await getInvocesToUploadData();
-      setData(resInvocesDataToUpload);
-    }
-    startFetch();
-  }, []);
   // const [data, setData] = useState([]);
 
-  const dataList = data.map((e, index) => ({ ...e, index }));
+  const {
+    invocesToUpload,
+    getStorageInvocesToUpload,
+    resetStorageInvocesToUpload,
+  } = invocesToUploadStore();
+  useEffect(() => {
+    getStorageInvocesToUpload();
+  }, []);
+
+  const dataList = invocesToUpload.map((e, index) => ({ ...e, index }));
 
   const deleteItem = (rowMap, rowKey) => {
-    setData((prev) => {
-      const tmpData = prev.filter((e, index) => index !== rowKey);
-      hardSetInvocesToUploadData(tmpData);
-      return tmpData;
-    });
+    const tmpData = dataList.filter((e, index) => index !== rowKey);
+    resetStorageInvocesToUpload(tmpData);
   };
 
   const renderItem = (data) => (
@@ -42,17 +42,6 @@ export default function InvoceList() {
       underlayColor="#fff"
     >
       <View style={styles.card}>
-        <View style={{ position: "absolute", right: 0, bottom: 0 }}>
-          {data.item?.invoice?.data?.id ? (
-            <Text style={{ fontSize: 10, color: "green" }}>
-              синхронизировано
-            </Text>
-          ) : (
-            <Text style={{ fontSize: 10, color: "red" }}>
-              не синхронизировано
-            </Text>
-          )}
-        </View>
         <View style={styles.index}>
           <Text>{data.item.index + 1}</Text>
         </View>
@@ -64,6 +53,23 @@ export default function InvoceList() {
           <Text style={{ width: "100%" }}>
             Кол-во мест: {data?.item?.slots?.length}
           </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              gap: 10,
+              justifyContent: "flex-start",
+            }}
+          >
+            <Text style={{ color: "#ddd" }}>
+              Отправлено мест: {data.item?.slots.filter((e) => e.data.id).length}
+            </Text>
+            {data.item?.invoice?.data?.id ? (
+              <Feather name="download-cloud" size={24} color="#2196f3" />
+            ) : (
+              <Feather name="download-cloud" size={24} color="#ddd" />
+            )}
+          </View>
         </View>
       </View>
     </TouchableHighlight>
@@ -82,7 +88,7 @@ export default function InvoceList() {
 
   return (
     <View style={styles.container}>
-      {data.length ? (
+      {invocesToUpload.length ? (
         <SwipeListView
           data={dataList}
           renderItem={renderItem}
@@ -108,6 +114,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
+    width: "100%",
+    position: "relative",
   },
   list: {
     color: "#FFF",

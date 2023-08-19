@@ -1,21 +1,26 @@
 import { fields } from "../config";
 
-const defaultInvoce = {
-  data: {
-    type: "deals",
-    attributes: {
-      name: "",
-      customs: {},
-    },
-    relationships: {
-      stage: {
-        data: {
-          type: "deal-stages",
-          id: fields["idStageInvoce"],
+function defaultInvoce({ name, clientCode, numberTTN }) {
+  return {
+    data: {
+      type: "deals",
+      attributes: {
+        name: name || "",
+        customs: {
+          [fields["clientCode"]]: clientCode || "",
+          [fields["numberTTN"]]: numberTTN || "",
+        },
+      },
+      relationships: {
+        stage: {
+          data: {
+            type: "deal-stages",
+            id: fields["idStageInvoce"],
+          },
         },
       },
     },
-  },
+  }
 };
 
 export default defaultInvoce;

@@ -5,17 +5,20 @@ import SlotList from "@/components/slot/SlotList";
 import constSlots from "@/requests/constSlots";
 import { getFlightDeals } from "@/requests/local/getSetFlights";
 import { fields } from "@/requests/config";
+import scanStore from "@/stores/scanStore";
+import defaultSlot from "@/requests/local/defaultSlot";
 
 export function ScannerScreen({ navigation }) {
-  const [slot, setSlot] = useState(constSlots());
+  const { scanItems, setStoragescanItems, resetStorageInvocesToUpload } = scanStore();
+  const [slot, setSlot] = useState([]);
   const [barcodeInput, setBarcodeInput] = useState("");
-  // useEffect(() => {
-  //   async function startFetch() {
-  //     const resFlightDeals = await getFlightDeals();
-  //     setSlot(resFlightDeals);
-  //   }
-  //   startFetch();
-  // }, []);
+  useEffect(() => {
+    async function startFetch() {
+      const resFlightDeals = await getFlightDeals();
+      setSlot(resFlightDeals);
+    }
+    startFetch();
+  }, []);
   const inputToFocus = useRef(null);
   useEffect(() => {
     if (inputToFocus?.current) {
@@ -33,6 +36,7 @@ export function ScannerScreen({ navigation }) {
       elem.data.attributes.customs[fields["scanTSD"]] = "Найдено";
       setSlot([elem, ...slot.filter((e) => e.data.id !== find[0].data.id)]);
       setBarcodeInput("");
+      resetStorageInvocesToUpload([elem, ...slot.filter((e) => e.data.id !== find[0].data.id)]);
     }
   }
 
@@ -59,7 +63,14 @@ export function ScannerScreen({ navigation }) {
               onChangeText={searchSlot}
               placeholder="Штрих-код"
             />
-            <Button style={{ flex: 1 }} title="Добавить" />
+            <Button style={{ flex: 1 }} title="Добавить" onPress={
+              () => {
+                const tmp = defaultSlot({ clientCode: "", numberTTN: "" });
+                tmp.data.attributes.customs[fields["scanTSD"]] = "Найдено";
+                tmp.data.attributes.customs[fields["barcode"]] = barcodeInput;
+                setSlot((prev) => [...prev, tmp]);
+              }
+            } />
           </View>
           <View style={{ width: "100%" }}>
             <SlotList

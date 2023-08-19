@@ -2,24 +2,36 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as zustand from "zustand";
 
 const invocesToUploadStore = zustand.create((set) => ({
-  invocesToUploadStore: [],
-  getStorage: async () => {
-    const storage = await AsyncStorage.getItem("invocesToUploadStore");
+  invocesToUpload: [],
+  getStorageInvocesToUpload: async () => {
+    const storage = await AsyncStorage.getItem("invocesToUpload");
     if (storage === null) return;
     const data = JSON.parse(storage);
-    return set({ invoces: { ...data } });
+    return set({ invocesToUpload: data });
   },
-  setStorage: async ({ invoice, slots, images }) => {
-    const data = { invoice, slots, images };
-    debugger;
-    // await AsyncStorage.setItem("invoces", JSON.stringify(this.invoces, data));
-    return set((state) => ({
-      invoces: [data, ...state],
-    }));
+  setStorageInvocesToUpload: async ({ invoice, slots }) => {
+    const data = { invoice, slots };
+    return set((state) => {
+      AsyncStorage.setItem(
+        "invocesToUpload",
+        JSON.stringify([data, ...state.invocesToUpload]),
+      );
+      return {
+        invocesToUpload: [data, ...state.invocesToUpload],
+      };
+    });
   },
-  removeStorage: async () => {
-    await AsyncStorage.setItem("invocesToUploadStore", null);
-    return set((state) => ({ invocesToUploadStore: [] }));
+  resetStorageInvocesToUpload: async (data) => {
+    return set((state) => {
+      AsyncStorage.setItem("invocesToUpload", JSON.stringify(data));
+      return {
+        invocesToUpload: data,
+      };
+    });
+  },
+  removeStorageInvocesToUpload: async () => {
+    await AsyncStorage.setItem("invocesToUpload", "");
+    return set((state) => ({ invocesToUpload: [] }));
   },
 }));
 

@@ -17,7 +17,7 @@ const logginStore = zustand.create((set) => ({
     }));
   },
   unloggin: async () => {
-    await AsyncStorage.setItem("user", null);
+    await AsyncStorage.setItem("user", "");
     return set((state) => ({ user: {} }));
   },
 }));

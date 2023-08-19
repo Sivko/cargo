@@ -1,39 +1,44 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+import { AntDesign } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
 import {
-  View, TextInput, TouchableOpacity, Text, StyleSheet, SafeAreaView, ScrollView, StatusBar
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
-import { Picker } from '@react-native-picker/picker';
 
-import { AntDesign } from '@expo/vector-icons';
 // import ImagePickerPreview from '../imagePicker/ImagePickerPreview';
-import { fields } from '@/requests/config';
-
+import { fields } from "@/requests/config";
 
 function SlotIndex({ route }) {
   const [data, setData] = useState(route.params.data);
-  const [length, setLength] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["length"]] || '');
-  const [width, setWidth] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["width"]] || '');
-  const [height, setHeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["height"]] || '');
-  const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || '');
-  const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || '');
-  const [description, setDescription] = useState(route.params.data[route.params.index - 1].data?.attributes?.description);
-  const [transport, setTransport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || '');
+  const [length, setLength] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["length"]] || "",);
+  const [width, setWidth] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["width"]] || "",);
+  const [height, setHeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["height"]] || "",);
+  const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || "",);
+  const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || "",);
+  const [description, setDescription] = useState(route.params.data[route.params.index - 1].data?.attributes?.description,);
+  const [transport, setTransport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || "",);
 
   useEffect(() => {
-    setData(prev => {
-      let slots = JSON.parse(JSON.stringify(prev));
-      slots[route.params.index - 1].data.attributes.description = description
-      slots[route.params.index - 1].data.attributes.customs[fields["length"]] = length
-      slots[route.params.index - 1].data.attributes.customs[fields["width"]] = width
-      slots[route.params.index - 1].data.attributes.customs[fields["height"]] = height
-      slots[route.params.index - 1].data.attributes.customs[fields["weight"]] = weight
-      slots[route.params.index - 1].data.attributes.customs[fields["barcode"]] = barcode
-      slots[route.params.index - 1].data.attributes.customs[fields["transport"]] = transport
+    setData((prev) => {
+      const slots = JSON.parse(JSON.stringify(prev));
+      slots[route.params.index - 1].data.attributes.description = description;
+      slots[route.params.index - 1].data.attributes.customs[fields["length"]] = length;
+      slots[route.params.index - 1].data.attributes.customs[fields["width"]] = width;
+      slots[route.params.index - 1].data.attributes.customs[fields["height"]] = height;
+      slots[route.params.index - 1].data.attributes.customs[fields["weight"]] = weight;
+      slots[route.params.index - 1].data.attributes.customs[fields["barcode"]] = barcode;
+      slots[route.params.index - 1].data.attributes.customs[fields["transport"]] = transport;
       return slots;
     });
   }, [length, width, height, transport, weight, description, barcode]);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <ScrollView style={styles.scrollView}>
         <View style={styles.card}>
           {/* <Text>{JSON.stringify(route.params.data[route.params.index - 1].attributes?.customs['custom_114632'])}</Text> */}
@@ -41,133 +46,175 @@ function SlotIndex({ route }) {
           <AntDesign name="picture" size={124} color="black" />
           {/* </ImagePickerPreview> */}
           <View style={styles.dimensions}>
-            <View style={styles.label}>
-              <Text style={{ fontSize: 10, opacity: 0.2 }}>Длина:</Text>
-              <TextInput
-                value={String(length)}
-                keyboardType="numeric"
-                style={styles.input}
-                onChangeText={(e) => setLength(e)}
-              />
+            <View style={styles.wrapper}>
+              <View style={styles.fieldSet}>
+                <Text style={styles.legend}>Длина</Text>
+                <TextInput
+                  value={String(length)}
+                  keyboardType="numeric"
+                  style={styles.legendInput}
+                  onChangeText={(e) => setLength(e)}
+                />
+              </View>
             </View>
-            <View style={styles.label}>
-              <Text style={{ fontSize: 10, opacity: 0.2 }}>Ширина:</Text>
-              <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onChangeText={(e) => setWidth(e)}
-                value={String(width)}
-              />
+            <View style={styles.wrapper}>
+              <View style={styles.fieldSet}>
+                <Text style={styles.legend}>Ширина</Text>
+                <TextInput
+                  keyboardType="numeric"
+                  style={styles.legendInput}
+                  onChangeText={(e) => setWidth(e)}
+                  value={String(width)}
+                />
+              </View>
             </View>
-            <View style={styles.label}>
-              <Text style={{ fontSize: 10, opacity: 0.2 }}>Высота:</Text>
-              <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onChangeText={(e) => setHeight(e)}
-                value={String(height)}
-              />
+            <View style={styles.wrapper}>
+              <View style={styles.fieldSet}>
+                <Text style={styles.legend}>Высота</Text>
+                <TextInput
+                  keyboardType="numeric"
+                  style={styles.legendInput}
+                  onChangeText={(e) => setHeight(e)}
+                  value={String(height)}
+                />
+              </View>
             </View>
-            <View style={styles.label}>
-              <Text style={{ fontSize: 10, opacity: 0.2 }}>Вес:</Text>
+            <View style={styles.wrapper}>
+              <View style={styles.fieldSet}>
+                <Text style={styles.legend}>Вес</Text>
+                <TextInput
+                  keyboardType="numeric"
+                  style={styles.legendInput}
+                  onChangeText={(e) => setWeight(e)}
+                  value={String(weight)}
+                />
+              </View>
+            </View>
+            {/* </View>
+          <View style={{ flex: 1, flexDirection: "row" }}> */}
+            <View style={{ ...styles.wrapper, width: "100%" }}>
+              <View style={styles.fieldSet}>
+                <Text style={styles.legend}>Штрих-код</Text>
+                <TextInput
+                  keyboardType="numeric"
+                  style={styles.legendInput}
+                  onChangeText={(e) => setBarcode(e)}
+                  value={String(barcode ?? "")}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={{ ...styles.wrapper, width: "100%" }}>
+            <View style={styles.fieldSet}>
+              <Text style={styles.legend}>Вид транспорта:</Text>
+              <View style={styles.pickerWrapper}>
+                {["AIRLINE", "TRUK", "TRAIN", "SEA"].map((e, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={{
+                      ...styles.picker,
+                      backgroundColor: transport === e ? "#207aff" : "#ddd",
+                    }}
+                    onPress={() => setTransport(e)}
+                  >
+                    <Text style={{ color: transport === e ? "#fff" : "#000" }}>
+                      {e}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </View>
+          <View style={{ ...styles.wrapper, width: "100%" }}>
+            <View style={{ ...styles.fieldSet, minWidth: "100%" }}>
+              <Text style={styles.legend}>Примечание</Text>
               <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onChangeText={(e) => setWeight(e)}
-                value={String(weight)}
+                style={{ ...styles.legendInput, flex: 1, width: "100%" }}
+                editable
+                multiline
+                numberOfLines={4}
+                // maxLength={20}
+                onChangeText={(e) => setDescription(e)}
+                // value={description}
+                value={description}
               />
             </View>
           </View>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={styles.label}>
-              <Text style={{ fontSize: 10, opacity: 0.2 }}>Штрих-код:</Text>
-              <TextInput
-                keyboardType="numeric"
-                style={styles.input}
-                onChangeText={(e) => setBarcode(e)}
-                value={String(barcode ?? '')}
-              />
-            </View>
-          </View>
-          <View style={{ ...styles.label, alignItems: 'center', justifyContent: 'center', height: 100 }}>
-            <Text style={{ fontSize: 10, opacity: 0.2 }}>Вид транспорта:</Text>
-            <Picker
-              transport={transport}
-              style={{ flex: 1 }}
-              onValueChange={(itemValue, itemIndex) => setTransport(itemValue)}
-            >
-              <Picker.Item label="AIRLINE" value="AIRLINE" />
-              <Picker.Item label="TRUCK" value="TRUCK" />
-              <Picker.Item label="TRAIN" value="TRAIN" />
-              <Picker.Item label="SEA" value="SEA" />
-            </Picker>
-          </View>
-          <View style={{ ...styles.label, alignItems: 'flex-start' }}>
-            <TextInput
-              placeholder="Примечание"
-              style={styles.input}
-              editable
-              multiline
-              numberOfLines={4}
-              maxLength={20}
-              onChangeText={(e) => setDescription(e)}
-              // value={description}
-              value={JSON.stringify(route.params.data[route.params.index - 1].data)}
-            />
-          </View>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "row", width: "100%" }}>
             <TouchableOpacity
-              style={{ flex: 1, backgroundColor: '#207aff', alignItems: 'center' }}
+              style={{
+                flex: 1,
+                backgroundColor: "#207aff",
+                alignItems: "center",
+                width: "100%",
+              }}
               onPress={() => {
                 route.params.setData(data);
-                route.params.navigation.goBack()
+                route.params.navigation.goBack();
               }}
             >
-              <Text style={{ padding: 20, color: '#fff' }}>Сохранить</Text>
+              <Text style={{ padding: 20, color: "#fff" }}>Сохранить</Text>
             </TouchableOpacity>
           </View>
-        </View >
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight,
-  },
   scrollView: {
     marginHorizontal: 20,
   },
   card: {
     flex: 1,
     gap: 0,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    alignSelf: 'flex-start',
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    alignSelf: "flex-start",
   },
   dimensions: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
+    flexWrap: "wrap",
+    alignItems: "flex-start",
     // padding: 10
   },
-  label: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20,
-    paddingVertical: 10,
-    backgroundColor: '#f3f3f3',
-    flex: 1,
+  wrapper: {
+    width: "50%",
+    padding: 5,
   },
-  input: {
-    borderBottomColor: '#ddd',
-    borderBottomWidth: 1,
-    paddingVertical: 10,
-    flex: 1,
+  fieldSet: {
+    paddingBottom: 0,
+    borderRadius: 5,
+    borderWidth: 1,
+
+    alignItems: "center",
+    borderColor: "#d3d3d3",
   },
-})
+  legend: {
+    position: "absolute",
+    top: -10,
+    left: 10,
+    fontWeight: "bold",
+    backgroundColor: "#f2f2f2",
+  },
+  legendInput: {
+    padding: 10,
+    width: "100%",
+  },
+  pickerWrapper: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    paddingVertical: 20,
+    flexWrap: "wrap",
+    minWidth: "100%",
+  },
+  picker: {
+    margin: 5,
+    padding: 10,
+  },
+});
 
 export default SlotIndex;

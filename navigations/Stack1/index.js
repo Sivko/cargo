@@ -2,44 +2,27 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { Button } from "react-native";
 
-import uploadInvocesSlots from "@/requests/upload/uploadInvocesSlots";
+import uploadInvocesSlots from "@/requests/communication/uploadInvocesSlots";
 // import AddInvoice from "../screens/AddInvoice";
 // import AddInvoices from "../screens/AddInvoices";
 // import Invoces from "../screens/Invoces";
 // import Slot from "../screens/Slot";
+// uploadInvocesSlots
 import SlotIndex from "@/components/slot/SlotIndex";
 import CreateScreen from "@/screens/screen1/CreateScreen";
 import FirstScreen from "@/screens/screen1/FirstScreen";
 import Invoices from "@/screens/screen1/Invoices";
+import invocesToUploadStore from "@/stores/invocesToUploadStore";
+import loggerStore from "@/stores/loggerStore";
+// import val from "@/requests/upload/uploadInvocesSlots";
 const SettingsStack = createNativeStackNavigator();
 
 export function Stack1() {
+  const { invocesToUpload, resetStorageInvocesToUpload } = invocesToUploadStore();
+  const { setLoggerStore } = loggerStore();
+
   return (
     <SettingsStack.Navigator>
-      {/* <SettingsStack.Screen
-        options={{ headerShown: false }}
-        name="AddInvoices"
-        component={AddInvoices}
-      />
-      <SettingsStack.Screen name="Оформить" component={AddInvoice} />
-      <SettingsStack.Screen name="Место" component={Slot} />
-      <SettingsStack.Screen
-        name="Квитанции"
-        component={Invoces}
-        options={() => ({
-          headerRight: () => (
-            <Button
-              title="Отправить"
-              onPress={() => {
-                alert(
-                  "Сейчас я отправляю данные и заношку все это в Логи, статус пока не меняется, сегодня поправлю и будет добавлен лоэдер :), ",
-                );
-                uploadInvocesSlots();
-              }}
-            />
-          ),
-        })}
-      /> */}
       <SettingsStack.Screen
         options={{ headerShown: false }}
         name="AddInvoices"
@@ -55,10 +38,11 @@ export function Stack1() {
             <Button
               title="Отправить"
               onPress={() => {
-                alert(
-                  "Сейчас я отправляю данные и заношку все это в Логи, статус пока не меняется, сегодня поправлю и будет добавлен лоэдер :), ",
-                );
-                uploadInvocesSlots();
+                uploadInvocesSlots({
+                  invocesToUpload,
+                  setLoggerStore,
+                  resetStorageInvocesToUpload,
+                });
               }}
             />
           ),

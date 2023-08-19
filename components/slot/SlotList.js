@@ -1,5 +1,4 @@
 import { AntDesign } from "@expo/vector-icons";
-import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +10,7 @@ import { SwipeListView } from "react-native-swipe-list-view";
 
 import { fields } from "../../requests/config";
 
-export default function SlotList({ data, setData, save }) {
+export default function SlotList({ data, setData, navigation }) {
   const dataList = data.map((e, index) => ({ ...e, index: index + 1 }));
 
   const deleteItem = (slot) => {
@@ -22,14 +21,14 @@ export default function SlotList({ data, setData, save }) {
 
   const renderItem = (el) => (
     <TouchableHighlight
-      // onPress={() => {
-      //   navigation.push("Место", {
-      //     data,
-      //     setData,
-      //     index: el.item.index,
-      //     navigation,
-      //   });
-      // }}
+      onPress={() => {
+        navigation.push("Место", {
+          data,
+          setData,
+          index: el.item.index,
+          navigation,
+        });
+      }}
       style={styles.rowFront}
       underlayColor="#fff"
     >
