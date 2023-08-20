@@ -1,5 +1,5 @@
 import { AntDesign, Feather } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,15 +10,7 @@ import {
 import { SwipeListView } from "react-native-swipe-list-view";
 
 import invocesToUploadStore from "@/stores/invocesToUploadStore";
-
-// import {
-//   getInvocesToUploadData,
-//   hardSetInvocesToUploadData,
-// } from "@/requests/local/getSetInvoces";
-
 export default function InvoceList() {
-  // const [data, setData] = useState([]);
-
   const {
     invocesToUpload,
     getStorageInvocesToUpload,
@@ -28,7 +20,11 @@ export default function InvoceList() {
     getStorageInvocesToUpload();
   }, []);
 
-  const dataList = invocesToUpload.map((e, index) => ({ ...e, index }));
+  const [dataList, setDataList] = useState(invocesToUpload.map((e, index) => ({ ...e, index })));
+
+  useEffect(() => {
+    setDataList(invocesToUpload.map((e, index) => ({ ...e, index })));
+  }, [invocesToUpload]);
 
   const deleteItem = (rowMap, rowKey) => {
     const tmpData = dataList.filter((e, index) => index !== rowKey);
@@ -58,16 +54,21 @@ export default function InvoceList() {
               flexDirection: "row",
               width: "100%",
               gap: 10,
+              alignItems: "center",
               justifyContent: "flex-start",
             }}
           >
             <Text style={{ color: "#ddd" }}>
               Отправлено мест: {data.item?.slots.filter((e) => e.data.id).length}
             </Text>
-            {data.item?.invoice?.data?.id ? (
-              <Feather name="download-cloud" size={24} color="#2196f3" />
-            ) : (
+            {!data.item?.invoice?.data?.id && (
               <Feather name="download-cloud" size={24} color="#ddd" />
+            )}
+            {data.item?.slots?.length === data.item?.slots.filter((e) => e.data.id).length && (
+              <Feather name="download-cloud" size={24} color="#2196f3" />
+            )}
+            {data.item?.invoice?.data?.id && data.item?.slots?.length !== data.item?.slots.filter((e) => e.data.id).length && (
+              <Feather name="download-cloud" size={24} color="#deb617" />
             )}
           </View>
         </View>

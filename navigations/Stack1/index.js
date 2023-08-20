@@ -18,7 +18,8 @@ import loggerStore from "@/stores/loggerStore";
 const SettingsStack = createNativeStackNavigator();
 
 export function Stack1() {
-  const { invocesToUpload, resetStorageInvocesToUpload } = invocesToUploadStore();
+  const { invocesToUpload, resetStorageInvocesToUpload, loading, setLoading } =
+    invocesToUploadStore();
   const { setLoggerStore } = loggerStore();
 
   return (
@@ -36,12 +37,14 @@ export function Stack1() {
         options={() => ({
           headerRight: () => (
             <Button
-              title="Отправить"
+              title={loading ? "Отправка" : "Отправить"}
+              disabled={!!loading}
               onPress={() => {
                 uploadInvocesSlots({
                   invocesToUpload,
                   setLoggerStore,
                   resetStorageInvocesToUpload,
+                  setLoading,
                 });
               }}
             />

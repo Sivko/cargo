@@ -42,6 +42,12 @@ export function ScannerScreen({ navigation }) {
 
   return (
     <>
+      <Text>123123</Text>
+      <CircularProgress
+        value={60}
+        radius={120}
+        duration={2000}
+      />
       {slot.length === 0 && (
         <Text style={{ padding: 20 }}>
           Нет загруженных мест для сканирования

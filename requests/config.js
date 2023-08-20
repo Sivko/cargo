@@ -8,6 +8,8 @@ export const config = {
   },
 };
 
+export const timeout = 300;
+
 export const fields = {
   idStageSlot: 327682,
   idStageInvoce: 327685,

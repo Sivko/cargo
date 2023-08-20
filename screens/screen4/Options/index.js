@@ -11,9 +11,11 @@ import {
 
 import { removeFlightDeals } from "@/requests/local/getSetFlights";
 import { getLogsData, removeLogsData } from "@/requests/local/getSetLogs";
+import invocesToUploadStore from "@/stores/invocesToUploadStore";
 import logginStore from "@/stores/logginStore";
 
 export function Option() {
+  const { setLoading } = invocesToUploadStore();
   const { unloggin } = logginStore();
   const [logs, setLogs] = useState([]);
 
@@ -40,6 +42,13 @@ export function Option() {
             onPress={() => {
               removeLogsData([]);
               setLogs([]);
+            }}
+          />
+          <Button
+            title="Изменить флаг загрузки"
+            onPress={() => {
+              setLoading(false);
+              alert("Все состояния сброшены");
             }}
           />
           <Button title="Выйти" onPress={unloggin} />

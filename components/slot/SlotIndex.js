@@ -37,6 +37,15 @@ function SlotIndex({ route }) {
       return slots;
     });
   }, [length, width, height, transport, weight, description, barcode]);
+
+  function focus(setValue) {
+    return function (e) {
+      if (Number(e.target.value) === 0) {
+        setValue('')
+      }
+    }
+  }
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.scrollView}>
@@ -50,10 +59,11 @@ function SlotIndex({ route }) {
               <View style={styles.fieldSet}>
                 <Text style={styles.legend}>Длина</Text>
                 <TextInput
-                  value={String(length)}
                   keyboardType="numeric"
                   style={styles.legendInput}
                   onChangeText={(e) => setLength(e)}
+                  value={String(length)}
+                  onFocus={focus(setLength)}
                 />
               </View>
             </View>
@@ -65,6 +75,7 @@ function SlotIndex({ route }) {
                   style={styles.legendInput}
                   onChangeText={(e) => setWidth(e)}
                   value={String(width)}
+                  onFocus={focus(setWidth)}
                 />
               </View>
             </View>
@@ -76,6 +87,7 @@ function SlotIndex({ route }) {
                   style={styles.legendInput}
                   onChangeText={(e) => setHeight(e)}
                   value={String(height)}
+                  onFocus={focus(setHeight)}
                 />
               </View>
             </View>
@@ -87,6 +99,7 @@ function SlotIndex({ route }) {
                   style={styles.legendInput}
                   onChangeText={(e) => setWeight(e)}
                   value={String(weight)}
+                  onFocus={focus(setWeight)}
                 />
               </View>
             </View>
@@ -100,6 +113,7 @@ function SlotIndex({ route }) {
                   style={styles.legendInput}
                   onChangeText={(e) => setBarcode(e)}
                   value={String(barcode ?? "")}
+                  onFocus={focus(setBarcode)}
                 />
               </View>
             </View>
@@ -136,7 +150,7 @@ function SlotIndex({ route }) {
                 // maxLength={20}
                 onChangeText={(e) => setDescription(e)}
                 // value={description}
-                value={description}
+                value={description ?? ""}
               />
             </View>
           </View>
