@@ -3,9 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 
 import Stack1 from "@/navigations/Stack1";
-// import Stack2 from "@/navigations/Stack2";
+import Stack2 from "@/navigations/Stack2";
 import Stack3 from "@/navigations/Stack3";
-import Stack4 from "@/navigations/Stack4";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,8 +16,6 @@ export default function Tabs() {
           switch (route.name) {
             case "Принять места":
               return <AntDesign name="dropbox" size={size} color={color} />;
-            // case "Зарузить рейсы":
-            //   return <Entypo name="grid" size={size} color={color} />;
             case "Сканировать рейсы":
               return <AntDesign name="barcode" size={size} color={color} />;
             case "Настройки":
@@ -30,9 +27,8 @@ export default function Tabs() {
       })}
     >
       <Tab.Screen name="Принять места" component={Stack1} />
-      {/* <Tab.Screen name="Зарузить рейсы" component={Stack2} /> */}
-      <Tab.Screen name="Сканировать рейсы" component={Stack3} />
-      <Tab.Screen name="Настройки" component={Stack4} />
+      <Tab.Screen name="Сканировать рейсы" component={Stack2} />
+      <Tab.Screen name="Настройки" component={Stack3} />
     </Tab.Navigator>
   );
 }

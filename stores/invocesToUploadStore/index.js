@@ -3,15 +3,11 @@ import * as zustand from "zustand";
 
 const invocesToUploadStore = zustand.create((set) => ({
   invocesToUpload: [],
-  loading: false,
   getStorageInvocesToUpload: async () => {
     const storage = await AsyncStorage.getItem("invocesToUpload");
     if (storage === null) return;
     const data = JSON.parse(storage);
     return set({ invocesToUpload: data });
-  },
-  setLoading: (state) => {
-    return set({ loading: state });
   },
   setStorageInvocesToUpload: async ({ invoice, slots }) => {
     const data = { invoice, slots };

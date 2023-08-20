@@ -1,3 +1,4 @@
+import { FontAwesome, Feather } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -10,152 +11,88 @@ import {
 } from "react-native";
 
 import FlightCard from "@/components/FlightCard";
+import { timeout } from "@/requests/config";
 import downloadFlightDeals from "@/requests/downloadFlightDeals";
 import { getFlights } from "@/requests/flights";
 import { getFlightDeals } from "@/requests/local/getSetFlights";
+import pressedStore from "@/stores/pressedStore";
 
 export default function DownloadFlights() {
-  const [refreshing, setRefreshing] = React.useState(false);
-  const [flights, setFlights] = React.useState([]);
-  const [checkedsId, setCheckedsId] = React.useState([]);
-  const [load, setLoad] = React.useState(false);
-  const [flightLocalDeals, setFlightLocalDeals] = useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(async () => {
-      // const resFlightDeals = await getFlightDeals()
-      // if (!resFlightDeals?.length) {
-      //   setFlightLocalDeals(false)
-      // } else {
-      //   setFlightLocalDeals(true)
-      //   return true;
-      // }
-      const flightsData = await getFlights();
-      if (flightsData.length) {
-        const data = flightsData.map((e) => ({
-          id: e.id,
-          name: e.attributes.name,
-        }));
-        setFlights(data);
-      } else {
-        alert("Нет рейсов для загрузки");
-      }
-      setRefreshing(false);
-      setCheckedsId([]);
-      startFetch();
-    }, 2000);
-  }, []);
-
-  async function startFetch() {
-    const resFlightDeals = await getFlightDeals();
-    if (!resFlightDeals?.length) {
-      setFlightLocalDeals(false);
-    } else {
-      setFlightLocalDeals(true);
-      return true;
-    }
-    const flightsData = await getFlights();
-    if (flightsData.length) {
-      const data = flightsData.map((e) => ({
-        id: e.id,
-        name: e.attributes.name,
-      }));
-      setFlights(data);
-    }
-  }
+  const { press, setPress } = pressedStore();
+  const [checkedElement, setCheckedElement] = useState([]);
 
   useEffect(() => {
-    startFetch();
-  }, []);
+    setCheckedElement([0]);
+  }, [press]);
 
-  function hanlerChecked(id) {
-    if (checkedsId.includes(id)) {
-      setCheckedsId((prev) => [
-        ...prev.filter((e) => Number(e) !== Number(id)),
-      ]);
-    } else {
-      setCheckedsId((prev) => [...prev, id]);
-    }
-  }
-
-  async function heandlerLoad() {
-    setLoad(true);
-    console.log("Сейчас начну загружать", checkedsId);
-    await downloadFlightDeals(checkedsId);
-    await startFetch();
-    setLoad(false);
+  function hendlerCard(index) {
+    setPress(true);
+    setCheckedElement(prev => [!prev[0]]);
   }
 
   return (
-    <>
-      {!load && (
-        <SafeAreaView style={styles.container}>
-          <ScrollView
-            contentContainerStyle={styles.scrollView}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            {!flightLocalDeals && (
-              <View style={styles.container}>
-                {flights.map((e) => (
-                  <FlightCard
-                    {...e}
-                    key={Math.random()}
-                    setActive={() => hanlerChecked(e.id)}
-                    active={checkedsId.includes(e.id)}
-                  />
-                ))}
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    paddingVertical: 20,
-                    marginTop: 20,
-                    backgroundColor: "#207aff",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onPress={heandlerLoad}
-                >
-                  <Text style={{ color: "#fff" }}>Загрузить</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            {flightLocalDeals && (
-              <View>
-                <Text style={{ padding: 10 }}>
-                  Есть непросканированные объекты - перейдите в "Сканирование
-                  рейсов"{" "}
-                </Text>
-              </View>
-            )}
-          </ScrollView>
-        </SafeAreaView>
-      )}
-      {load && <Text style={{ padding: 10 }}>Load...</Text>}
-    </>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <TouchableOpacity
+          style={styles.card}
+          onLongPress={() => hendlerCard(0)}
+          delayLongPress={500}
+        >
+          <Text>1</Text>
+          <View>
+            <Text>Название: </Text>
+            <Text>Кол-во мест: </Text>
+            <Text>Статус: </Text>
+            <Text>Создано: </Text>
+          </View>
+          <View>
+            <Text>Название: </Text>
+            <Text>Кол-во мест: </Text>
+            <Text>Статус: </Text>
+            <Text>Создано: </Text>
+          </View>
+          <View style={{ gap: 10 }}>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Feather name="upload-cloud" size={24} color="#2196f3" />
+              <Text style={{ fontSize: 10 }}>Отпр: 0/10</Text>
+            </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Feather name="download-cloud" size={24} color="#2196f3" />
+              <Text style={{ fontSize: 10 }}>Загр: 0/10</Text>
+            </View>
+          </View>
+          {press && (
+            <View>
+              {!checkedElement[0] === 0 && (
+                <Feather name="circle" size={24} color="#ddd" />
+              )}
+              {checkedElement[0] === 0 && (
+                <FontAwesome name="check-circle" size={24} color="#2196f3" />
+              )}
+            </View>
+          )}
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 16,
-    marginVertical: 32,
   },
-  section: {
-    flexDirection: "row",
-    alignItems: "center",
+  scrollView: {
+    backgroundColor: "#ddd",
+  },
+  card: {
     flex: 1,
-    height: 55,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderBottomColor: "#ddd",
+    borderStyle: "solid",
     borderBottomWidth: 1,
-  },
-  paragraph: {
-    fontSize: 15,
-  },
-  checkbox: {
-    margin: 8,
   },
 });

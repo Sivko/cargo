@@ -38,8 +38,6 @@ function CreateScreen({ route, navigation }) {
   // }
 
   function save() {
-    // debugger
-    // getStorage();
     setStorageInvocesToUpload({
       invoice: defaultInvoice({ name, clientCode, numberTTN }),
       slots,

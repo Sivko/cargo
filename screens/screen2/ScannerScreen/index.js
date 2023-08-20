@@ -7,7 +7,6 @@ import { getFlightDeals } from "@/requests/local/getSetFlights";
 import { fields } from "@/requests/config";
 import scanStore from "@/stores/scanStore";
 import defaultSlot from "@/requests/local/defaultSlot";
-
 export function ScannerScreen({ navigation }) {
   const { scanItems, setStoragescanItems, resetStorageInvocesToUpload } = scanStore();
   const [slot, setSlot] = useState([]);
@@ -43,11 +42,6 @@ export function ScannerScreen({ navigation }) {
   return (
     <>
       <Text>123123</Text>
-      <CircularProgress
-        value={60}
-        radius={120}
-        duration={2000}
-      />
       {slot.length === 0 && (
         <Text style={{ padding: 20 }}>
           Нет загруженных мест для сканирования
