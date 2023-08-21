@@ -1,4 +1,5 @@
-import { AntDesign } from "@expo/vector-icons";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import moment from "moment";
 import { useState, useEffect } from "react";
 import {

@@ -32,6 +32,7 @@ export function Stack2({ navigation }) {
                 onPress={() => {
                   if (loading) {
                     alert("Есть активная загрузка");
+                    return;
                   }
                   navigation.navigate("Загрузка");
                 }}
@@ -49,7 +50,7 @@ export function Stack2({ navigation }) {
               />
             ) : (
               <Button
-                title="Сохранить в S2"
+                title="Сох. в S2"
                 disabled={loading}
                 onPress={() => alert(123)}
               />
