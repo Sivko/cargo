@@ -1,11 +1,9 @@
-import Checkbox from "expo-checkbox";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function FlightCard({ name, active, setActive }) {
   return (
     <TouchableOpacity style={styles.section} onPress={setActive}>
-      <Checkbox style={styles.checkbox} value={active} />
       <Text style={styles.paragraph}>{name}</Text>
     </TouchableOpacity>
   );

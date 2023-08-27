@@ -1,7 +1,7 @@
 export const config = {
   headers: {
     "Content-Type": "application/vnd.api+json",
-    Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_KEY}`,
+    Authorization: `Bearer mUYmfdF5Hr0zUC9b3WLmR94p_DH4-GPkdQ42FmBZpv0`,
   },
   validateStatus(status) {
     return status < 500; // Resolve only if the status code is less than 500

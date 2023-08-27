@@ -29,7 +29,7 @@ function Login() {
     if (email && password) {
       try {
         const res = await axios.get(
-          `${process.env.EXPO_PUBLIC_API_URL}/users?filter[email]=${encodeURI(
+          `https://app.salesap.ru/api/v1/users?filter[email]=${encodeURI(
             email,
           )}`,
           config,

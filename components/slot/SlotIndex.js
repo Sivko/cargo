@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { AntDesign } from "@expo/vector-icons";
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useEffect, useState } from "react";
 import {
   View,
@@ -22,7 +22,7 @@ function SlotIndex({ route }) {
   const [weight, setWeight] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["weight"]] || "",);
   const [barcode, setBarcode] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["barcode"]] || "",);
   const [description, setDescription] = useState(route.params.data[route.params.index - 1].data?.attributes?.description,);
-  const [transport, setTransport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]] || "",);
+  const [transport, setTransport] = useState(route.params.data[route.params.index - 1].data?.attributes?.customs[fields["transport"]][0] || "",);
 
   useEffect(() => {
     setData((prev) => {
@@ -105,7 +105,7 @@ function SlotIndex({ route }) {
             </View>
             {/* </View>
           <View style={{ flex: 1, flexDirection: "row" }}> */}
-            <View style={{ ...styles.wrapper, width: "100%" }}>
+            {/* <View style={{ ...styles.wrapper, width: "100%" }}>
               <View style={styles.fieldSet}>
                 <Text style={styles.legend}>Штрих-код</Text>
                 <TextInput
@@ -116,7 +116,7 @@ function SlotIndex({ route }) {
                   onFocus={focus(setBarcode)}
                 />
               </View>
-            </View>
+            </View> */}
           </View>
           <View style={{ ...styles.wrapper, width: "100%" }}>
             <View style={styles.fieldSet}>
